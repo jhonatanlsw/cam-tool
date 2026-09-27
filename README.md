@@ -1,4 +1,4 @@
-cam-tool
+# cam-tool
 
 Tool for automated measurement of liquid droplet dimensions
 in laboratory images and videos.
@@ -9,7 +9,7 @@ rewritten from scratch with its own architecture in Python 3.
 
 Licensed under GPLv3.
 
-Description
+## Description
 
 cam-tool analyzes videos of droplets deposited on solid
 surfaces and calculates, for each selected frame:
@@ -25,7 +25,7 @@ The physical model assumed is the spherical cap approximation
 (sessile drop), suitable for small droplets where gravity is
 negligible.
 
-Features
+## Features
 
 · Automatic droplet segmentation via Otsu thresholding
 · Contour detection via OpenCV
@@ -39,7 +39,7 @@ Features
 · Slideshow generation in GIF or MP4
 · Persistent settings in Settings.txt
 
-Requirements
+## Requirements
 
 · Python 3.10 or higher
 · Ubuntu 22.04 or higher (tested on 26.04)
@@ -57,7 +57,7 @@ Requirements
   · pandas
   · openpyxl
 
-Installation
+## Installation
 
 Clone the repository:
 
@@ -85,7 +85,7 @@ After installation, reload the shell:
 source ~/.bashrc
 ```
 
-Usage
+## Usage
 
 Activate the virtual environment and run:
 
@@ -101,7 +101,7 @@ source .venv/bin/activate
 python3 -m cam_tool
 ```
 
-Workflow
+## Workflow
 
 1. Select the video file using the "Select video" button
 2. Set the scale in nanometers per pixel (camera calibration)
@@ -111,7 +111,7 @@ Workflow
 6. Configure the number of images, interval, and output format
 7. Click "Compile Slideshow" to process all frames
 
-Generated outputs
+## Generated outputs
 
 Results are saved in ~/cam-tool/Output/<video_name>/:
 
@@ -119,7 +119,7 @@ Results are saved in ~/cam-tool/Output/<video_name>/:
 · <video_name>.gif or <video_name>.mp4 — slideshow
 · <video_name>_Medidas_[timestamp].xlsx — spreadsheet with the measurements
 
-Project structure
+## Project structure
 
 ```
 cam-tool/
@@ -154,7 +154,7 @@ cam-tool/
 └── examples/
 ```
 
-Architecture
+## Architecture
 
 The project is organized into modules with well-defined responsibilities.
 
@@ -163,12 +163,12 @@ Infrastructure modules
 · config.py: persistent parameter management
 · log.py: unified logging with callback support (GUI)
 
-Input modules
+### Input modules
 
 · image.py: image reading and writing
 · video.py: video reading and frame extraction
 
-Processing modules
+### Processing modules
 
 · segmentation.py: droplet segmentation by threshold
 · contour.py: extraction of the largest contour
@@ -176,22 +176,22 @@ Processing modules
 · measurements.py: calculation of measurements (width, height, radius,
   volume, area, angle)
 
-Output modules
+### Output modules
 
 · overlay.py: drawing of visual elements on the image
 · export.py: export to CSV and XLSX
 · slideshow.py: GIF and MP4 assembly
 
-Orchestration
+### Orchestration
 
 · pipeline.py: DropletAnalyzer class that orchestrates the complete
   analysis pipeline
 
-Interface
+### Interface
 
 · gui/: graphical interface with Dear PyGui
 
-Methodology
+### Methodology
 
 The analysis pipeline follows these steps:
 
@@ -222,7 +222,7 @@ The analysis pipeline follows these steps:
 7. Export: generation of annotated images, slideshow, and
    results spreadsheet.
 
-Calibration
+### Calibration
 
 The conversion from pixels to nanometers is done using a factor
 provided by the user. The value must be obtained by calibrating
@@ -231,7 +231,7 @@ the camera with a reference object of known dimensions.
 The "Scale (nm/px)" field in the interface defines the factor. For example,
 if 1 pixel equals 500 nanometers, the value should be 500.
 
-License
+### License
 
 This project is distributed under the GNU General Public License v3.0.
 See the LICENSE file for the full text.

@@ -1,99 +1,99 @@
-# cam-tool
+cam-tool
 
-Ferramenta para medição automatizada de dimensões de gotas líquidas
-em imagens e vídeos de laboratório.
+Tool for automated measurement of liquid droplet dimensions
+in laboratory images and videos.
 
-Baseado conceitualmente em ContactAngleMeasurement de Mike Phillips
+Conceptually based on ContactAngleMeasurement by Mike Phillips
 (https://github.com/MikePhillips123/ContactAngleMeasurement),
-reescrito do zero com arquitetura própria em Python 3.
+rewritten from scratch with its own architecture in Python 3.
 
-Licenciado sob GPLv3.
+Licensed under GPLv3.
 
-## Descrição
+Description
 
-O cam-tool analisa vídeos de gotas depositadas sobre superfícies
-sólidas e calcula, para cada frame selecionado:
+cam-tool analyzes videos of droplets deposited on solid
+surfaces and calculates, for each selected frame:
 
-- Largura da gota (diâmetro da base)
-- Altura da gota
-- Raio da esfera que contém a calota (R)
-- Volume da calota
-- Área de contato com a superfície
-- Ângulo de contato (fórmula da calota esférica)
+· Droplet width (base diameter)
+· Droplet height
+· Radius of the sphere containing the cap (R)
+· Cap volume
+· Contact area with the surface
+· Contact angle (spherical cap formula)
 
-O modelo físico assumido é a aproximação de calota esférica
-(sessile drop), adequada para gotas pequenas onde a gravidade é
-desprezível.
+The physical model assumed is the spherical cap approximation
+(sessile drop), suitable for small droplets where gravity is
+negligible.
 
-## Recursos
+Features
 
-- Segmentação automática da gota por limiarização de Otsu
-- Detecção de contorno via OpenCV
-- Ajuste robusto de linha de base com RANSAC
-- Medição de largura, altura, raio, volume e área
-- Cálculo do ângulo de contato por fórmula de calota esférica
-- Calibração de escala (nanômetros por pixel)
-- Interface gráfica com Dear PyGui
-- Preview sob demanda da imagem analisada
-- Exportação de resultados em CSV e XLSX
-- Geração de slideshow em GIF ou MP4
-- Configurações persistentes em Settings.txt
+· Automatic droplet segmentation via Otsu thresholding
+· Contour detection via OpenCV
+· Robust baseline fitting with RANSAC
+· Measurement of width, height, radius, volume, and area
+· Contact angle calculation via spherical cap formula
+· Scale calibration (nanometers per pixel)
+· Graphical interface with Dear PyGui
+· On-demand preview of the analyzed image
+· Export of results to CSV and XLSX
+· Slideshow generation in GIF or MP4
+· Persistent settings in Settings.txt
 
-## Requisitos
+Requirements
 
-- Python 3.10 ou superior
-- Ubuntu 22.04 ou superior (testado no 26.04)
-- Bibliotecas do sistema:
-  - python3-venv
-  - python3-full
-  - python3-tk
-  - libmediainfo0v5
-- Bibliotecas Python (instaladas via pip):
-  - dearpygui
-  - opencv-python
-  - numpy
-  - pillow
-  - pymediainfo
-  - pandas
-  - openpyxl
+· Python 3.10 or higher
+· Ubuntu 22.04 or higher (tested on 26.04)
+· System libraries:
+  · python3-venv
+  · python3-full
+  · python3-tk
+  · libmediainfo0v5
+· Python libraries (installed via pip):
+  · dearpygui
+  · opencv-python
+  · numpy
+  · pillow
+  · pymediainfo
+  · pandas
+  · openpyxl
 
-## Instalação
+Installation
 
-Clone o repositório:
+Clone the repository:
 
 ```bash
 git clone https://github.com/lsjhonatan/cam-tool.git
 cd cam-tool
 ```
 
-Execute o script de instalação:
+Run the installation script:
 
 ```bash
 ./dependencias.sh
 ```
 
-O script irá:
+The script will:
 
-1. Instalar as dependências do sistema via apt
-2. Criar o ambiente virtual em .venv
-3. Instalar as dependências Python via pip
-4. Adicionar aliases ao ~/.bashrc
+1. Install system dependencies via apt
+2. Create the virtual environment in .venv
+3. Install Python dependencies via pip
+4. Add aliases to ~/.bashrc
 
-Após a instalação, recarregue o shell:
+After installation, reload the shell:
 
 ```bash
 source ~/.bashrc
 ```
 
-## Uso
+Usage
 
-Ative o ambiente virtual e execute:
+Activate the virtual environment and run:
 
 ```bash
 cam-tool
 ```
 
-Ou diretamente:
+Or directly:
 
 ```bash
 cd ~/cam-tool
@@ -101,25 +101,25 @@ source .venv/bin/activate
 python3 -m cam_tool
 ```
 
-### Fluxo de trabalho
+Workflow
 
-1. Selecione o arquivo de vídeo pelo botão "Selecionar vídeo"
-2. Defina a escala em nanômetros por pixel (calibração da câmera)
-3. Ajuste a região de interesse (ROI) nos campos x1 e x2
-4. Clique em "Atualizar Preview" para visualizar o frame analisado
-5. Ajuste os thresholds de análise se necessário
-6. Configure o número de imagens, intervalo e formato de saída
-7. Clique em "Compilar Slideshow" para processar todos os frames
+1. Select the video file using the "Select video" button
+2. Set the scale in nanometers per pixel (camera calibration)
+3. Adjust the region of interest (ROI) in the x1 and x2 fields
+4. Click "Update Preview" to view the analyzed frame
+5. Adjust the analysis thresholds if necessary
+6. Configure the number of images, interval, and output format
+7. Click "Compile Slideshow" to process all frames
 
-### Saídas geradas
+Generated outputs
 
-Os resultados são salvos em `~/cam-tool/Output/<nome_do_video>/`:
+Results are saved in ~/cam-tool/Output/<video_name>/:
 
-- `Images/` — imagens anotadas de cada frame (PNG)
-- `<nome_do_video>.gif` ou `<nome_do_video>.mp4` — slideshow
-- `<nome_do_video>_Medidas_[timestamp].xlsx` — planilha com as medidas
+· Images/ — annotated images of each frame (PNG)
+· <video_name>.gif or <video_name>.mp4 — slideshow
+· <video_name>_Medidas_[timestamp].xlsx — spreadsheet with the measurements
 
-## Estrutura do projeto
+Project structure
 
 ```
 cam-tool/
@@ -154,89 +154,84 @@ cam-tool/
 └── examples/
 ```
 
-## Arquitetura
+Architecture
 
-O projeto é organizado em módulos com responsabilidades bem definidas.
+The project is organized into modules with well-defined responsibilities.
 
-### Módulos de infraestrutura
+Infrastructure modules
 
-- **config.py**: gerenciamento de parâmetros persistentes
-- **log.py**: logging unificado com suporte a callbacks (GUI)
+· config.py: persistent parameter management
+· log.py: unified logging with callback support (GUI)
 
-### Módulos de entrada
+Input modules
 
-- **image.py**: leitura e escrita de imagens
-- **video.py**: leitura de vídeos e extração de frames
+· image.py: image reading and writing
+· video.py: video reading and frame extraction
 
-### Módulos de processamento
+Processing modules
 
-- **segmentation.py**: segmentação da gota por threshold
-- **contour.py**: extração do maior contorno
-- **baseline.py**: ajuste da linha de base com RANSAC
-- **measurements.py**: cálculo das medidas (largura, altura, raio,
-  volume, área, ângulo)
+· segmentation.py: droplet segmentation by threshold
+· contour.py: extraction of the largest contour
+· baseline.py: baseline fitting with RANSAC
+· measurements.py: calculation of measurements (width, height, radius,
+  volume, area, angle)
 
-### Módulos de saída
+Output modules
 
-- **overlay.py**: desenho dos elementos visuais na imagem
-- **export.py**: exportação para CSV e XLSX
-- **slideshow.py**: montagem de GIF e MP4
+· overlay.py: drawing of visual elements on the image
+· export.py: export to CSV and XLSX
+· slideshow.py: GIF and MP4 assembly
 
-### Orquestração
+Orchestration
 
-- **pipeline.py**: classe DropletAnalyzer que orquestra o pipeline
-  completo de análise
+· pipeline.py: DropletAnalyzer class that orchestrates the complete
+  analysis pipeline
 
-### Interface
+Interface
 
-- **gui/**: interface gráfica com Dear PyGui
+· gui/: graphical interface with Dear PyGui
 
-## Metodologia
+Methodology
 
-O pipeline de análise segue as etapas:
+The analysis pipeline follows these steps:
 
-1. **Aquisição**: o frame é carregado e a correção de rotação é
-   aplicada com base nos metadados do vídeo.
+1. Acquisition: the frame is loaded and rotation correction is
+   applied based on the video metadata.
+2. Segmentation: the image is converted to grayscale,
+   filtered with Gaussian blur, inverted, and binarized using the
+   Otsu method. Morphological opening and closing operations
+   remove noise and fill holes. The region of interest is
+   applied as a mask.
+3. Contour extraction: the largest contour is extracted with
+   cv2.findContours and filtered by the region of
+   interest boundaries.
+4. Baseline fitting: the lowest N% of the contour are
+   selected and a line is fitted with RANSAC (Random Sample
+   Consensus), which is robust to outliers.
+5. Measurement:
+   · Width: horizontal distance between the two contact points
+     (contour-baseline intersection)
+   · Height: vertical distance between the top of the droplet and
+     the baseline
+   · Radius: R = (a² + h²) / (2h), where a = width/2 and h = height
+   · Volume: V = π h² (3R - h) / 3
+   · Area: A = π a²
+   · Angle: θ = 2 · atan(h / a)
+6. Rendering: overlay of visual elements (contour,
+   baseline, dimension lines, measurement labels).
+7. Export: generation of annotated images, slideshow, and
+   results spreadsheet.
 
-2. **Segmentação**: a imagem é convertida para escala de cinza,
-   filtrada com desfoque gaussiano, invertida e binarizada pelo
-   método de Otsu. Operações morfológicas de abertura e fechamento
-   removem ruído e preenchem buracos. A região de interesse é
-   aplicada como máscara.
+Calibration
 
-3. **Extração do contorno**: o maior contorno é extraído com
-   cv2.findContours e filtrado pelos limites da região de
-   interesse.
+The conversion from pixels to nanometers is done using a factor
+provided by the user. The value must be obtained by calibrating
+the camera with a reference object of known dimensions.
 
-4. **Ajuste da linha de base**: os N% mais baixos do contorno são
-   selecionados e uma reta é ajustada com RANSAC (Random Sample
-   Consensus), que é robusto a outliers.
+The "Scale (nm/px)" field in the interface defines the factor. For example,
+if 1 pixel equals 500 nanometers, the value should be 500.
 
-5. **Medição**:
-   - Largura: distância horizontal entre os dois pontos de contato
-     (interseção contorno-baseline)
-   - Altura: distância vertical entre o topo da gota e a baseline
-   - Raio: R = (a² + h²) / (2h), onde a = largura/2 e h = altura
-   - Volume: V = π h² (3R - h) / 3
-   - Área: A = π a²
-   - Ângulo: θ = 2 · atan(h / a)
+License
 
-6. **Renderização**: sobreposição dos elementos visuais (contorno,
-   baseline, linhas de dimensão, rótulos de medidas).
-
-7. **Exportação**: geração das imagens anotadas, slideshow e
-   planilha de resultados.
-
-## Calibração
-
-A conversão de pixels para nanômetros é feita por um fator
-fornecido pelo usuário. O valor deve ser obtido por calibração
-da câmera com um objeto de referência de dimensão conhecida.
-
-O campo "Escala (nm/px)" na interface define o fator. Por exemplo,
-se 1 pixel equivale a 500 nanômetros, o valor deve ser 500.
-
-## Licença
-
-Este projeto é distribuído sob a GNU General Public License v3.0.
-Veja o arquivo LICENSE para o texto completo.
+This project is distributed under the GNU General Public License v3.0.
+See the LICENSE file for the full text.

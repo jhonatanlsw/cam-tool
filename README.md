@@ -232,6 +232,4 @@ The "Scale (nm/px)" field in the interface defines the factor. For example,
 if 1 pixel equals 500 nanometers, the value should be 500.
 
 ### License
-
-This project is distributed under the GNU General Public License v3.0.
-See the LICENSE file for the full text.
+The MIT License (MIT)
